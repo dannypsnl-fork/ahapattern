@@ -23,11 +23,12 @@ type pattern struct {
 }
 
 func (p *pattern) Of(e interface{}, f interface{}) *pattern {
-	rf := reflect.ValueOf(f)
-	p.check(rf)
 	re := reflect.ValueOf(e)
 	mustTrue(re.Type().AssignableTo(p.typeOfTarget),
 		"pattern and target have different type")
+	rf := reflect.ValueOf(f)
+	p.check(rf)
+	// everything fine, then memory this pattern
 	p.ofExpressions = append(p.ofExpressions, re)
 	p.ofPatterns = append(p.ofPatterns, rf)
 	return p
