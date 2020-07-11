@@ -24,12 +24,8 @@ type pattern struct {
 
 func (p *pattern) Of(e interface{}, f interface{}) *pattern {
 	rf := reflect.ValueOf(f)
+	p.check(rf)
 	re := reflect.ValueOf(e)
-	mustNumber(rf.Type().NumIn(), "should only one parameter", 1)
-	mustNumber(rf.Type().NumOut(), "should only one output", 1)
-	// first parameter
-	mustTrue(rf.Type().In(0).AssignableTo(p.typeOfTarget),
-		"parameter and target have different type")
 	mustTrue(re.Type().AssignableTo(p.typeOfTarget),
 		"pattern and target have different type")
 	p.ofExpressions = append(p.ofExpressions, re)
@@ -39,18 +35,22 @@ func (p *pattern) Of(e interface{}, f interface{}) *pattern {
 
 func (p *pattern) Else(f interface{}) interface{} {
 	rf := reflect.ValueOf(f)
-	// TODO: maybe handle function with error output?
-	mustNumber(rf.Type().NumIn(), "should only one parameter", 1)
-	mustNumber(rf.Type().NumOut(), "should only one output", 1)
-	// first parameter
-	mustTrue(rf.Type().In(0).AssignableTo(p.typeOfTarget),
-		"parameter and target have different type")
+	p.check(rf)
 	for i, ofPattern := range p.ofPatterns {
 		if p.target.Interface() == p.ofExpressions[i].Interface() {
 			return ofPattern.Call([]reflect.Value{p.target})[0].Interface()
 		}
 	}
 	return rf.Call([]reflect.Value{p.target})[0].Interface()
+}
+
+func (p *pattern) check(handler reflect.Value) {
+	// TODO: maybe handle function with error output?
+	mustNumber(handler.Type().NumIn(), "should only one parameter", 1)
+	mustNumber(handler.Type().NumOut(), "should only one output", 1)
+	// first parameter
+	mustTrue(handler.Type().In(0).AssignableTo(p.typeOfTarget),
+		"parameter and target have different type")
 }
 
 func mustNumber(actual int, message string, expected int) {
