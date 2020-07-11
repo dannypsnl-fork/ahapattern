@@ -55,7 +55,7 @@ func (p *pattern) check(handler reflect.Value) {
 }
 
 func mustNumber(actual int, message string, expected int) {
-	mustTrue(actual != expected, message)
+	mustTrue(actual == expected, message)
 }
 
 func mustTrue(b bool, message string) {
