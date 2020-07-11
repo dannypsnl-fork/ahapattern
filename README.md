@@ -20,3 +20,13 @@ func main() {
         Else(func(f Foo) int { return f.A })
 }
 ```
+
+### Problem
+
+- cannot deconstruct structure
+- cannot introduce new variable via pattern
+- didn't support sub-pattern
+
+### Solution
+
+Use [Haskell](https://www.haskell.org/)
