@@ -1,6 +1,6 @@
 # ahapattern
 
-Aha! Pattern is a bad idea that overusing the power of reflection to involve pattern-matching into Go. Here is an example:
+Aha! Pattern is another bad idea that overusing the power of reflection to involve pattern-matching into Go. Here is an example:
 
 ```go
 package example
