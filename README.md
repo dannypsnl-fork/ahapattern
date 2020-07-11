@@ -5,6 +5,10 @@ Aha! Pattern is another bad idea that overusing the power of reflection to invol
 ```go
 package example
 
+import (
+    . "github.com/dannypsnl/ahapattern"
+)
+
 type Foo struct {
     A int
     B int
