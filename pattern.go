@@ -46,7 +46,6 @@ func (p *pattern) Else(f interface{}) interface{} {
 }
 
 func (p *pattern) check(handler reflect.Value) {
-	// TODO: maybe handle function with error output?
 	mustNumber(handler.Type().NumIn(), "should only one parameter", 1)
 	mustNumber(handler.Type().NumOut(), "should only one output", 1)
 	// first parameter
